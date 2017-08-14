@@ -1,0 +1,23 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,p,table,th,tr,td,th,input,select,textarea,button{margin: 0; padding: 0;}
+ul,li{list-style: none; float: left;}
+a{text-decoration: none;cursor:pointer;display: inline-block;text-align: center;color: gray;}
+i{font-style: normal;}
+label{font-weight: normal;}
+button,input{outline: none; border: none; background: none;}
+::-webkit-input-placeholder{color: #fff;} 
+:-moz-placeholder{color: #fff;}  /* Mozilla Firefox 4 to 18 */ 
+::-moz-placeholder{color: #fff;}  /* Mozilla Firefox 19+ */ 
+:-ms-input-placeholder{color: #fff;}  /* Internet Explorer 10+ */ 
+html,body{width: 100%; height: 100%; overflow: hidden; font-family:"微软雅黑"!important;font-size: 18px;}
+
+
+/*.bottom-div{
+	height: calc(100vh-300px);
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}*/
+.list-info{
+	font-size: 15px;
+	color: gray;
+}
