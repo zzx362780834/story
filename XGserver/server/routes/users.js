@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var ScrollAD = mongoose.model('ScrollAD');
+var all = mongoose.model('User');
+var scrollAD = mongoose.model('ScrollAD');
 var validator = require('../action/validator.js')
 
 /* GET users listing. */
@@ -27,12 +27,7 @@ var moment = require('moment');
 
 
 router.get(list, function(req, res, next) {
-    var obj = {};
-    if (req.query.static == 'all') {
-        obj = User;
-    } else if (req.query.static == 'scrollAd') {
-        obj = ScrollAD;
-    }
+    var obj = req.query.static;
     obj.find({}, function(err, docs) {
         if (err) {
             res.end('Error');
@@ -44,12 +39,7 @@ router.get(list, function(req, res, next) {
 })
 
 router.get(detail, function(req, res, next) {
-    var obj = {};
-    if (req.query.static == 'all') {
-        obj = User;
-    } else if (req.query.static == 'scrollAd') {
-        obj = ScrollAD;
-    }
+    var obj = req.query.static;
     obj.find({ "_id": req.query.id }, function(err, docs) {
         if (err) {
             res.end('Error');
@@ -59,12 +49,7 @@ router.get(detail, function(req, res, next) {
     })
 })
 router.get(del, (req, res, next) => {
-    var obj = {};
-    if (req.query.static == 'all') {
-        obj = User;
-    } else if (req.query.static == 'scrollAd') {
-        obj = ScrollAD;
-    }
+    var obj = req.query.static;
     obj.remove({ _id: req.query.id }, (err, docs) => {
         if (err) {
             res.end('Error');
@@ -80,13 +65,7 @@ router.post(addBook, function(req, res, next) {
         res.end('参数不能为空');
         return;
     };
-    var obj = {};
-    if (req.body.static == 'all') {
-        obj = User;
-    } else if (req.body.static == 'scrollAd') {
-        obj = ScrollAD;
-    }
-
+    var obj = req.query.static;
     var addObj = new obj({
         bookname: req.body.bookname,
         bookauthor: req.body.bookauthor,
@@ -111,12 +90,7 @@ router.post(updata, function(req, res, next) {
         res.end('参数不能为空');
         return;
     }
-    var obj = {};
-    if (req.body.static == 'all') {
-        obj = User;
-    } else if (req.body.static == 'scrollAd') {
-        obj = ScrollAD;
-    }
+    var obj = req.query.static;
     var updataObj = new obj({
         _id: req.body.id,
         bookname: req.body.bookname,

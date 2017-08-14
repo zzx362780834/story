@@ -2,6 +2,7 @@
     <div class="homeList">
         <div class="tab-pane fade in active" id="addList">
             <div style="text-align: right;padding: 8px;">
+                <a @click="traverse" type="button" class="btn btn-success ">遍历{{static}}</a>
                 <a @click="addBook" type="button" class="btn btn-success ">添加</a>
             </div>
             <table class="addList" @click="operations"></table>
@@ -16,13 +17,19 @@ export default {
         this.init();
     },
     methods: {
+        traverse(){
+
+            $.get(`/index/traverse?static=${this.static}`, res => {
+                console.log(res)
+            })
+        },
         addBook(){
             var _this = this;
             this.$router.push(`/home/addBook?static=${_this.static}`)
         },
         init() {
             $('.addList').bootstrapTable({
-                url: `${this.$request.list}?static=all`,
+                url: `${this.$request.list}?static=${this.static}`,
                 method: 'get',
                 dataType: "json",
                 pagination: true,

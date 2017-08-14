@@ -21,5 +21,16 @@ var scrollAD = new mongoose.Schema({
     bookimg:String,
 })
 
+var sixiang = new mongoose.Schema({
+	bookname: String,
+	bookauthor: String,
+	booktype: String,
+	bookinfo: String,
+	time: String,
+	bookAddress:String,
+    bookimg:String,
+})
+
 mongoose.model('User', UserSchema);
 mongoose.model('ScrollAD', scrollAD);
+mongoose.model('Sixiang', sixiang);

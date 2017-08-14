@@ -36,7 +36,16 @@ module.exports = {
                 pathRewrite: {
                     '^/users': '/users'
                 }
-            }
+            },
+            '/index': {
+                target: 'http://127.0.0.1:3000',
+                // target: 'http://10.192.25.105:8888',
+                // target: 'http://10.192.25.5:8888',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/index': ''
+                }
+            },
         },
 
         // CSS Sourcemaps off by default because relative paths are "buggy"

@@ -3,6 +3,7 @@
         <ul>
             <li><router-link to="/home/homelist?static=all">添加目录</router-link></li>
             <li><router-link to="/home/adlist?static=scrollAd">添加广告</router-link></li>
+            <li><router-link to="/home/homelist?static=sixiang">添加广告</router-link></li>
         </ul>
     </div>
 </template>
