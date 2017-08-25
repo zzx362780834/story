@@ -27,7 +27,7 @@ export default {
         }
     },
     mounted() {
-        $.get(this.$request.list,{static:'all'},res => {
+        $.get(this.$request.list,{static:'sixiang'},res => {
             this.list = res.splice(0,10);
         })
     },

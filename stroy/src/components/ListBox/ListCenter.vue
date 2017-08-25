@@ -5,7 +5,7 @@
                 <div>
                     <a class="img" @click="toReadinfo(item)"><img :src='item.bookimg'></a>
                     <h2 class="bookname">{{item.bookname}}</h2>
-                    <p class="bookinfo">{{item.bookinfo}}</p>
+                    <!-- <p class="bookinfo">{{item.bookinfo}}</p> -->
                     <p class="tab"><a class="bookauthor">{{item.bookauthor}}</a><span>{{item.booktype}}</span></p>
                 </div>
             </li>
@@ -15,7 +15,7 @@
 <script>
 export default {
     mounted() {
-        $.get(this.$request.list,{static:'all'},res => {
+        $.get(this.$request.list,{static:'sixiang'},res => {
             this.list = res.splice(0,6);
         })
     },
@@ -27,7 +27,8 @@ export default {
     methods:{
         toReadinfo(val){
             this.$store.dispatch('changeBookinfo', val);
-            this.$router.push("/home/readinfo");
+
+            this.$router.push(`/home/readinfo`);
             
         }
     }

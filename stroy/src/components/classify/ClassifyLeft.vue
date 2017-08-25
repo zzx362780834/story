@@ -1,7 +1,7 @@
 <template>
     <div id="classify-left">
         <ul>
-            <li v-for="item in classify">
+            <li v-for="item in classify" @click="typeClick(item)">
                 <i class="iconfont icon-tiyu" style="float:left;font-size: 26px;padding:15px 8px 8px 17px;"></i>
                 <a class="classify-name">{{item.name}}</a>
                 <a class="classify-length">{{item.length}}</a>
@@ -59,6 +59,11 @@ export default {
             }]
         }
     },
+    methods:{
+        typeClick(val){
+            this.$router.push(`/home/pageType?static='sixiang'`);
+        }
+    }
 }
 </script>
 

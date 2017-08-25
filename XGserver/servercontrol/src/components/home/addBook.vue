@@ -28,12 +28,18 @@
             <label for="exampleInputEmail" style="float:left;margin-right: 6px;" v-model="bookinfo">简介</label>
             <textarea id="exampleInputEmail" class="form-control" rows="8" v-model="bookinfo">{{bookinfo}}</textarea>
         </div>
+        <div class="form-group" v-show="id!=''">
+            <label for="exampleInputEmail" style="float:left;margin-right: 6px;" v-model="bookinfo">章节目录</label>
+            <ul>
+                <li v-for="item in listArr">{{item.title}}</li>
+            </ul>
+        </div>
         <button type="button" class="btn btn-success" @click="addBook">添加</button>
     </div>
 </template>
 <script>
 export default {
-    props: ['static'],
+    props: ['bookStatic'],
     data() {
         return {
             bookname: "",
@@ -42,7 +48,8 @@ export default {
             bookinfo: "",
             bookAddress: '',
             bookimg: "",
-            id: ""
+            id: "",
+            listArr: []
         }
     },
     mounted() {
@@ -52,10 +59,10 @@ export default {
         init() {
             this.id = this.$route.query.id;
             if (this.id) {
-                console.log(12121,this.static)
+                console.log(12121, this.bookStatic)
                 $.get(this.$request.detail, {
                     aaa: "sdfsdfds",
-                    static: this.static,
+                    static: this.bookStatic,
                     id: this.id
                 }, res => {
                     this.bookname = res.bookname;
@@ -64,6 +71,8 @@ export default {
                     this.bookinfo = res.bookinfo;
                     this.bookAddress = res.bookAddress;
                     this.bookimg = res.bookimg;
+                    console.log(res)
+                    this.listArr = res.bookList;
                 })
             }
         },
@@ -116,7 +125,7 @@ export default {
                     url: this.$request.updata, // 处理的请求路径
                     data: {
                         id: this.id,
-                        static: this.static,
+                        static: this.bookStatic,
                         bookname: this.bookname,
                         bookauthor: this.bookauthor,
                         booktype: this.booktype,
@@ -136,9 +145,9 @@ export default {
                 });
             } else {
                 // 添加
-                console.log(1212,this.static);
+                console.log(1212, this.bookStatic);
                 $.post(this.$request.addbook, {
-                    static: this.static,
+                    static: this.bookStatic,
                     bookname: this.bookname,
                     bookauthor: this.bookauthor,
                     booktype: this.booktype,
@@ -148,8 +157,8 @@ export default {
 
                     time: new Date()
                 }, res => {
+                    console.log(res)
                     _this.$router.back();
-                    // console.log(res)
                 })
             }
 
@@ -160,6 +169,7 @@ export default {
 
     }
 }
+
 </script>
 <style scoped>
 #addBook .form-group {
@@ -182,4 +192,5 @@ export default {
     bottom: 30px;
     width: 100px;
 }
+
 </style>

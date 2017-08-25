@@ -10,18 +10,18 @@
 </template>
 <script>
 export default {
-    props:['static'],
+    props:['bookStatic'],
     name: "id",
     mounted() {
-        console.log(1111)
         this.init();
     },
     methods: {
         addBook(){
             var _this = this;
-            this.$router.push(`/home/addBook?static=${_this.static}`)
+            this.$router.push(`/home/addBook?static=${_this.bookStatic}`)
         },
         init() {
+            $(".addList").bootstrapTable('destroy');
             $('.addList').bootstrapTable({
                 url: `${this.$request.list}?static=scrollAd`,
                 method: 'get',
@@ -86,12 +86,12 @@ export default {
             if (className == "delete") {
                 $.get(this.$request.del,{
                     id: id,
-                    static: this.static
+                    static: this.bookStatic
                 },res => {
                     $('.addList').bootstrapTable('removeByUniqueId', id); 
                 })
             } else if (className == "change") {
-                this.$router.push(`/home/addBook?id=${id}&static=${_this.static}`);
+                this.$router.push(`/home/addBook?id=${id}&static=${_this.bookStatic}`);
             }         
         }
     }

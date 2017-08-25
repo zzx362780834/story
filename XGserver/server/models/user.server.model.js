@@ -29,6 +29,7 @@ var sixiang = new mongoose.Schema({
 	time: String,
 	bookAddress:String,
     bookimg:String,
+    bookList: Array
 })
 
 mongoose.model('User', UserSchema);

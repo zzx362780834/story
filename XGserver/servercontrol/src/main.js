@@ -10,7 +10,7 @@ Vue.prototype.$request = request;
 
 
 require('../static/css/bootstrap.css')
-
+require('../static/css/bootstrap-table.min.css')
 require('../static/js/bootstrap.js')
 require('../static/js/bootstrap-table.min.js')
 require('../static/js/bootstrap-table-zh-CN.min.js')

@@ -25,9 +25,10 @@ export default {
         },
         methods: {
             init(){
-                $.get(this.$request.list,{static:'scrollAd'},res => {
-                    this.obj = res;
-                })
+                // $.get(this.$request.list,{static:'scrollAd'},res => {
+                //     console.log(res)
+                //     // this.obj = res;
+                // })
             },
             changeImg(index) {
                 clearInterval(this.timer);

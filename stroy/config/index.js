@@ -37,13 +37,13 @@ module.exports = {
                     '^/users': '/users'
                 }
             },
-            '/story': {
+            '/images': {
                 target: 'http://127.0.0.1:3000',
                 // target: 'http://10.192.25.105:8888',
                 // target: 'http://10.192.25.5:8888',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/users': '/users'
+                    '^/images': '/images'
                 }
             },
         },

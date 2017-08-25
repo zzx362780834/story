@@ -4,7 +4,7 @@
         <div class="container-fluid" id="container-fluid">
             <div class="row" style="position: relative;">
                 <div id="sideBar"><side-bar></side-bar></div>
-                <div id="homeList"><router-view :static='$route.query.static'></router-view></div>
+                <div id="homeList"><router-view :bookStatic='$route.query.static'></router-view></div>
             </div>
         </div>
     </div>

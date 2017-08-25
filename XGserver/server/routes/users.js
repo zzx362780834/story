@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var all = mongoose.model('User');
+
+var User = mongoose.model('User');
 var scrollAD = mongoose.model('ScrollAD');
+var sixiang = mongoose.model('Sixiang');
+
 var validator = require('../action/validator.js')
 
 /* GET users listing. */
@@ -23,11 +26,22 @@ var upload1 = '/upload';
 
 var moment = require('moment');
 // import moment from 'moment'
+function selectObj(val) {
+    switch (val) {
+        case 'all':
+            return User;
+        case 'scrollAD':
+            return scrollAD;
+        case 'sixiang':
+            return sixiang;
+            // default:
 
+    }
+}
 
 
 router.get(list, function(req, res, next) {
-    var obj = req.query.static;
+    var obj = selectObj(req.query.static);
     obj.find({}, function(err, docs) {
         if (err) {
             res.end('Error');
@@ -39,7 +53,7 @@ router.get(list, function(req, res, next) {
 })
 
 router.get(detail, function(req, res, next) {
-    var obj = req.query.static;
+    var obj = selectObj(req.query.static);
     obj.find({ "_id": req.query.id }, function(err, docs) {
         if (err) {
             res.end('Error');
@@ -49,14 +63,26 @@ router.get(detail, function(req, res, next) {
     })
 })
 router.get(del, (req, res, next) => {
-    var obj = req.query.static;
-    obj.remove({ _id: req.query.id }, (err, docs) => {
-        if (err) {
-            res.end('Error');
-            return next();
-        }
-        res.send("success")
-    })
+    var obj = selectObj(req.query.static);
+    if (req.query.id) {
+        obj.remove({ _id: req.query.id }, (err, docs) => {
+            if (err) {
+                res.end('Error');
+                return next();
+            }
+            res.send("success")
+        })
+    } else {
+        console.log(111111)
+        obj.remove({}, (err, docs) => {
+            if (err) {
+                res.end('Error');
+                return next();
+            }
+            res.send("success")
+        })
+    }
+
 })
 
 
@@ -65,7 +91,7 @@ router.post(addBook, function(req, res, next) {
         res.end('参数不能为空');
         return;
     };
-    var obj = req.query.static;
+    var obj = selectObj(req.query.static);
     var addObj = new obj({
         bookname: req.body.bookname,
         bookauthor: req.body.bookauthor,
@@ -90,7 +116,7 @@ router.post(updata, function(req, res, next) {
         res.end('参数不能为空');
         return;
     }
-    var obj = req.query.static;
+    var obj = selectObj(req.query.static);
     var updataObj = new obj({
         _id: req.body.id,
         bookname: req.body.bookname,
@@ -110,25 +136,25 @@ router.post(updata, function(req, res, next) {
 })
 
 var EPub = require("epub");
-router.get(info,(req, res, next) => {
+router.get(info, (req, res, next) => {
     var epub = new EPub("../public/story/滚滚红尘美利坚-1500206657610.epub", "/imagewebroot/", "/articlewebroot/");
-        epub.on("error", function(err){
+    epub.on("error", function(err) {
         throw err;
     });
-    epub.on("end", function(err){
-        // res.json(epub)
-        res.json({'metadata':epub.metadata,'toc':epub.toc});
+    epub.on("end", function(err) {
+        res.json(epub)
+        // res.json({ 'metadata': epub.metadata, 'toc': epub.toc });
     });
     epub.parse();
 })
-router.get(content,(req, res, next) => {
-    var epub = new EPub("../public/story/滚滚红尘美利坚-1500206657610.epub", "/imagewebroot/", "/articlewebroot/");
-        epub.on("error", function(err){
+router.get(content, (req, res, next) => {
+    var epub = new EPub(req.query.address, "/imagewebroot/", "/articlewebroot/");
+    epub.on("error", function(err) {
         throw err;
     });
-    epub.on("end", function(err){
-        epub.getChapterRaw('id289352', function(err, data){
-            if(err){
+    epub.on("end", function(err) {
+        epub.getChapterRaw(req.query.id, function(err, data) {
+            if (err) {
                 console.log(err);
                 return;
             }
@@ -137,23 +163,22 @@ router.get(content,(req, res, next) => {
     });
     epub.parse();
 })
-router.get('/img',(req, res, next) => {
-    var epub = new EPub("../public/story/滚滚红尘美利坚-1500206657610.epub", "/imagewebroot/", "/articlewebroot/");
-        epub.on("error", function(err){
-        throw err;
-    });
-    epub.on("end", function(err){
-        epub.getImage('cover', function(error, img, mimeType){
-            if(err){
-                console.log(err);
-                return;
-            }
-            res.json(img)
-        });
-    });
-    epub.parse();
-})
-
+// router.get('/img', (req, res, next) => {
+//     var epub = new EPub("../public/story/滚滚红尘美利坚-1500206657610.epub", "/imagewebroot/", "/articlewebroot/");
+//     epub.on("error", function(err) {
+//         throw err;
+//     });
+//     epub.on("end", function(err) {
+//         epub.getImage('cover', function(error, img, mimeType) {
+//             if (err) {
+//                 console.log(err);
+//                 return;
+//             }
+//             res.json(img)
+//         });
+//     });
+//     epub.parse();
+// })
 
 
 //上传文件
@@ -173,7 +198,7 @@ var upload = multer({
 
 router.post(upload1, upload.single('myfile'), function(req, res, next) {
     var file = req.file;
-    file.path = file.path.substring(9,file.path.length);
+    file.path = file.path.substring(9, file.path.length);
     res.send(file);
 });
 
